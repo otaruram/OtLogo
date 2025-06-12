@@ -2,6 +2,8 @@
 
 Generate stunning, unique logos for your brand in seconds. OtLogo combines cutting-edge AI with an intuitive UI so you can focus on creativity, not complexity.
 
+# App Preview
+https://youtu.be/qkdHtGlkffQ
 ---
 
 ## ✨ Features
