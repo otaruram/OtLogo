@@ -1,0 +1,393 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Menggunakan font dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+/* Definisikan Keyframes untuk animasi blob */
+@keyframes moveBlob1 {
+    0%   { transform: scale(1) translate(0, 0) rotate(0deg); }
+    25%  { transform: scale(1.1) translate(20px, -30px) rotate(90deg); }
+    50%  { transform: scale(0.9) translate(-20px, 40px) rotate(180deg); }
+    75%  { transform: scale(1.2) translate(30px, -20px) rotate(270deg); }
+    100% { transform: scale(1) translate(0, 0) rotate(360deg); }
+}
+
+@keyframes moveBlob2 {
+    0%   { transform: scale(1) translate(0, 0) rotate(0deg); }
+    50%  { transform: scale(1.2) translate(-50px, 30px) rotate(-180deg); }
+    100% { transform: scale(1) translate(0, 0) rotate(-360deg); }
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    /* Latar belakang utama: Kosongkan agar bisa diisi oleh komponen React (CosmicBackground) */
+    /* background-color: #F8F5F2; */
+    /* background-image: url('/images/craft-paper.png'); */
+    color: #111111;
+    position: relative; /* Diperlukan untuk memposisikan lapisan pseudo-elemen */
+    min-height: 100vh;
+    overflow-x: hidden; /* Mencegah scroll horizontal dari elemen-elemen dekoratif */
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        /* Lapisan 1: Potongan koran vintage (sedikit transparan) */
+        url('/images/newspaper-texture.png'),
+        /* Lapisan 2: Pola kertas grid (lebih transparan) */
+        url('/images/grid-texture.png');
+    background-repeat: repeat, repeat;
+    opacity: 0.1; /* Atur opasitas keseluruhan lapisan */
+    mix-blend-mode: multiply; /* Mode blend untuk efek tumpang tindih yang artistik */
+    pointer-events: none; /* Memastikan lapisan tidak mengganggu interaksi dengan konten */
+    z-index: -1; /* Menempatkan di belakang konten utama */
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    transform: translate(-50%, -50%);
+    background-image: url('/images/watercolor-stain.png'); /* Noda cat air */
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.08;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Membuat container khusus untuk latar belakang login agar tidak mengganggu halaman lain */
+.login-background-container {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Membuat blob pertama menggunakan ::before */
+.login-background-container::before {
+    content: '';
+    position: absolute;
+    z-index: -1; /* Diletakkan di belakang konten */
+    top: -20vh;
+    left: -20vw;
+    width: 45vw;
+    height: 45vw;
+    background: radial-gradient(circle, #ffafcc, #bde0fe);
+    border-radius: 50%; /* Membuatnya bulat */
+    
+    /* Efek blur untuk menciptakan bentuk blob yang lembut */
+    filter: blur(80px);
+    
+    /* Terapkan animasi */
+    animation: moveBlob1 25s infinite ease-in-out;
+}
+
+/* Membuat blob kedua menggunakan ::after */
+.login-background-container::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    bottom: -25vh;
+    right: -15vw;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, #a2d2ff, #cdb4db);
+    border-radius: 50%;
+    filter: blur(90px);
+    
+    /* Animasi berbeda agar gerakan tidak monoton */
+    animation: moveBlob2 35s infinite alternate ease-in-out;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px; /* Slightly wider to accommodate social buttons */
+    padding: 40px;
+    box-sizing: border-box;
+    
+    /* EFEK KACA (FROSTED GLASS / GLASSMORPHISM) */
+    background-color: rgba(255, 255, 255, 0.6); /* Warna putih semi-transparan */
+    backdrop-filter: blur(12px); /* Efek blur pada latar belakang di belakang elemen ini */
+    -webkit-backdrop-filter: blur(12px); /* Dukungan untuk Safari */
+    
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.login-container .subtitle {
+    margin: 0 0 30px 0;
+    text-align: center;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #a2d2ff;
+    box-shadow: 0 0 0 3px rgba(162, 210, 255, 0.5);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: #333;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+.signup-link a {
+    color: #333;
+    font-weight: 700;
+    text-decoration: none;
+}
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Social Button Styles to match the new theme */
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    box-sizing: border-box;
+    outline: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, border-color 0.3s;
+    cursor: pointer;
+}
+
+.social-btn:hover {
+    background-color: rgba(240, 240, 240, 0.9);
+    border-color: #bbb;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #555;
+    margin: 25px 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .25em;
+}
+
+.app-header {
+    background-color: white;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 2rem;
+}
+
+.app-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-navigation a {
+    margin: 0 1rem;
+    color: #495057;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.main-navigation a.active {
+    color: #0d6efd;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-outline {
+    border-color: #ced4da;
+    color: #495057;
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    margin-bottom: 1.5rem;
+}
+
+/* Neobrutalist Styles */
+.neo-card {
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 8px;
+    box-shadow: 6px 6px 0 0 black;
+    padding: 2rem;
+}
+
+.neo-btn {
+    padding: 0.75rem 1.5rem;
+    border: 3px solid black;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 4px 4px 0 0 black;
+}
+
+.neo-btn:hover {
+    box-shadow: 2px 2px 0 0 black;
+    transform: translate(2px, 2px);
+}
+
+.neo-btn-primary {
+    background-color: #fBBF24; /* Amber 400 */
+    color: black;
+}
+
+/* New Dropdown Styles */
+.neo-menu {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+}
+
+.neo-menu-items {
+    position: absolute;
+    right: 0;
+    margin-top: 0.5rem;
+    width: 12rem;
+    origin-top-right: true;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 8px;
+    box-shadow: 6px 6px 0 0 black;
+    padding: 0.5rem;
+}
+
+.neo-background {
+    background-color: #f0f0f0; /* A light gray as a fallback */
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-position: center;
+}
+
+/* Masonry Grid Styles */
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -30px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { /* change div to reference your elements */
+  margin-bottom: 30px;
+}
+
+@layer base {
+  :root { --background: 0 0% 100%; --foreground: 222.2 84% 4.9%; --card: 0 0% 100%; --card-foreground: 222.2 84% 4.9%; --popover: 0 0% 100%; --popover-foreground: 222.2 84% 4.9%; --primary: 222.2 47.4% 11.2%; --primary-foreground: 210 40% 98%; --secondary: 210 40% 96.1%; --secondary-foreground: 222.2 47.4% 11.2%; --muted: 210 40% 96.1%; --muted-foreground: 215.4 16.3% 46.9%; --accent: 210 40% 96.1%; --accent-foreground: 222.2 47.4% 11.2%; --destructive: 0 84.2% 60.2%; --destructive-foreground: 210 40% 98%; --border: 214.3 31.8% 91.4%; --input: 214.3 31.8% 91.4%; --ring: 222.2 84% 4.9%; --chart-1: 12 76% 61%; --chart-2: 173 58% 39%; --chart-3: 197 37% 24%; --chart-4: 43 74% 66%; --chart-5: 27 87% 67%; --radius: 0.5rem;
+    }
+  .dark { --background: 222.2 84% 4.9%; --foreground: 210 40% 98%; --card: 222.2 84% 4.9%; --card-foreground: 210 40% 98%; --popover: 222.2 84% 4.9%; --popover-foreground: 210 40% 98%; --primary: 210 40% 98%; --primary-foreground: 222.2 47.4% 11.2%; --secondary: 217.2 32.6% 17.5%; --secondary-foreground: 210 40% 98%; --muted: 217.2 32.6% 17.5%; --muted-foreground: 215 20.2% 65.1%; --accent: 217.2 32.6% 17.5%; --accent-foreground: 210 40% 98%; --destructive: 0 62.8% 30.6%; --destructive-foreground: 210 40% 98%; --border: 217.2 32.6% 17.5%; --input: 217.2 32.6% 17.5%; --ring: 212.7 26.8% 83.9%; --chart-1: 220 70% 50%; --chart-2: 160 60% 45%; --chart-3: 30 80% 55%; --chart-4: 280 65% 60%; --chart-5: 340 75% 55%;
+    }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+}
