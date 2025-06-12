@@ -25,8 +25,8 @@ https://youtu.be/qkdHtGlkffQ
 | Styling   | Tailwind CSS, CVA |
 | Backend   | Next.js API routes, Prisma ORM |
 | Auth      | NextAuth.js (+ social providers) |
-| Database  | PostgreSQL (default) |
-| 3D / Anim | React-Three-Fiber, Framer-Motion |
+| Database  | PostgreSQL (Supabase) |
+
 
 ---
 
